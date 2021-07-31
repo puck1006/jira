@@ -48,6 +48,7 @@
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
+    "@types/qs": "^6.9.7",
     "husky": ">=6",
     "json-server": "^0.16.3",
     "lint-staged": ">=10",
