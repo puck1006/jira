@@ -3,7 +3,7 @@ const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
 export const cleanObject = (object: object) => {
   const result = { ...object };
-  Object.keys(result).map((key) => {
+  Object.keys(result).forEach((key) => {
     // @ts-ignore
     const value = result[key];
     if (isFalsy(value)) {
@@ -33,4 +33,20 @@ export const useDebounce = <T>(value: T, delay?: number) => {
   }, [value, delay]);
 
   return debouncedValue;
+};
+
+export const useArray = <T>(initialValue: T[]) => {
+  const [value, setValue] = useState(initialValue);
+
+  return {
+    value,
+    setValue,
+    clear: () => setValue([]),
+    removeIndex: (num: number) => {
+      setValue(value.filter((_, index) => index !== num));
+    },
+    add: (project: T) => {
+      setValue([...value, project]);
+    },
+  };
 };
