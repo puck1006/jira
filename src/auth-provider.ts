@@ -19,6 +19,8 @@ export const login = (params: { username: string; password: string }) => {
   }).then(async (res) => {
     if (res.ok) {
       return handleResponse(await res.json());
+    } else {
+      return Promise.reject("请求失败");
     }
   });
 };
@@ -33,8 +35,11 @@ export const register = (params: { username: string; password: string }) => {
   }).then(async (res) => {
     if (res.ok) {
       return handleResponse(await res.json());
+    } else {
+      return Promise.reject("请求失败");
     }
   });
 };
 
-export const logout = () => window.localStorage.removeItem(localStorageKey);
+export const logout = async () =>
+  window.localStorage.removeItem(localStorageKey);

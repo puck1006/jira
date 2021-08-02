@@ -1,6 +1,7 @@
 // import { ProjectListScreen } from "screens/project-list";
 // import { TsReactTest } from "try-use-array";
 
+import { AppProviders } from "context";
 import { LoginScreen } from "screens/login";
 
 function App() {
@@ -8,7 +9,9 @@ function App() {
     <div className="App">
       {/* <ProjectListScreen /> */}
       {/* <TsReactTest /> */}
-      <LoginScreen />
+      <AppProviders>
+        <LoginScreen />
+      </AppProviders>
     </div>
   );
 }
