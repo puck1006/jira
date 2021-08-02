@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
 export const cleanObject = (object: object) => {
