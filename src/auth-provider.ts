@@ -2,7 +2,7 @@ import { User } from "screens/project-list/search-panel";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const localStorageKey = "__auth_provider_token__";
+export const localStorageKey = "__auth_provider_token__";
 
 const handleResponse = ({ user }: { user: User }) => {
   window.localStorage.setItem(localStorageKey, user.token || "");
@@ -41,5 +41,6 @@ export const register = (params: { username: string; password: string }) => {
   });
 };
 
-export const logout = async () =>
+export const logout = async () => {
   window.localStorage.removeItem(localStorageKey);
+};
