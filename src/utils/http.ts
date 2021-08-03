@@ -49,3 +49,19 @@ export const useHttp = () => {
   return (...[endpoint, config]: Parameters<typeof http>) =>
     http(endpoint, { ...config, token: user?.token });
 };
+
+// type Person = {
+//   name: string;
+//   age: number;
+// };
+
+// const xiaoming: Partial<Person> = {};
+// console.log(xiaoming);
+
+// type Partial<T> = {
+//   [P in keyof T]?: T[P];
+// };
+
+// type PersonKeys = keyof Person;
+
+// type age = Exclude<PersonKeys, "name">;
