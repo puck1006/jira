@@ -28,7 +28,7 @@ export const http = async (
     config.body = JSON.stringify(data || {});
   }
 
-  return fetch(`${apiUrl}/${endPoint}}`, config).then(async (res) => {
+  return fetch(`${apiUrl}/${endPoint}`, config).then(async (res) => {
     if (res.status === 401) {
       await auth.logout();
       window.location.reload();
@@ -46,7 +46,6 @@ export const http = async (
 
 export const useHttp = () => {
   const { user } = useAuth();
-  console.log(user);
   return (...[endpoint, config]: Parameters<typeof http>) =>
     http(endpoint, { ...config, token: user?.token });
 };

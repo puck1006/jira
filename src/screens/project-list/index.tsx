@@ -16,7 +16,7 @@ export const ProjectListScreen = () => {
   const client = useHttp();
 
   useEffect(() => {
-    client("projects", cleanObject(debouncedParam)).then(setList);
+    client("projects", { data: cleanObject(debouncedParam) }).then(setList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParam]);
 
