@@ -1,4 +1,3 @@
-/* @jsxImportSource @emotion/react */
 import { Form, Input, Select } from "antd";
 
 export interface User {
@@ -21,7 +20,7 @@ interface SearchPanelProps {
 
 export const SearchPanel = ({ users, params, setParams }: SearchPanelProps) => {
   return (
-    <Form layout={"inline"} css={{ marginBottom: "2rem" }}>
+    <Form layout={"inline"} style={{ marginBottom: "2rem" }}>
       <Form.Item>
         <Input
           type="text"

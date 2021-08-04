@@ -2,7 +2,7 @@ import qs from "qs";
 import * as auth from "auth-provider";
 import { useAuth } from "context/auth-context";
 
-const apiUrl = process.env["REACT_APP_API_URL "];
+const apiUrl = process.env.REACT_APP_API_URL;
 
 interface Config extends RequestInit {
   token?: string;
@@ -28,6 +28,7 @@ export const http = async (
     config.body = JSON.stringify(data || {});
   }
 
+  console.log(apiUrl);
   return fetch(`${apiUrl}/${endPoint}`, config).then(async (res) => {
     if (res.status === 401) {
       await auth.logout();

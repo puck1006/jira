@@ -29,7 +29,7 @@ export const ProjectListScreen = () => {
     <Container>
       <h1>项目列表</h1>
       <SearchPanel params={params} setParams={setParams} users={users} />
-      <List list={list} users={users} />
+      <List dataSource={list} users={users} />
     </Container>
   );
 };
