@@ -22,7 +22,7 @@ export const login = (params: { username: string; password: string }) => {
     if (res.ok) {
       return handleResponse(await res.json());
     } else {
-      return Promise.reject("请求失败");
+      return Promise.reject(await res.json());
     }
   });
 };
@@ -38,7 +38,7 @@ export const register = (params: { username: string; password: string }) => {
     if (res.ok) {
       return handleResponse(await res.json());
     } else {
-      return Promise.reject("请求失败");
+      return Promise.reject(await res.json());
     }
   });
 };
