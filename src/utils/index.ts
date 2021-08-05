@@ -51,3 +51,9 @@ export const useArray = <T>(initialValue: T[]) => {
     },
   };
 };
+
+export const useDocumentTitle = (title: string) => {
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+};
