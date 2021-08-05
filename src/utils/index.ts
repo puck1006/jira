@@ -70,3 +70,5 @@ export const useDocumentTitle = (
     };
   }, [keepOnUomount, oldTitle]);
 };
+
+export const resetRoute = () => (window.location.href = window.location.origin);
