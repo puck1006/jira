@@ -6,12 +6,15 @@ import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects } from "../../utils/project";
 import { useUsers } from "../../utils/user";
+// import { useUrlQueryParams } from "../../utils/url";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useState({
     name: "",
     personId: "",
   });
+
+  // const [params, setParams] = useUrlQueryParams(["name","personId"]);
   const debouncedParam = useDebounce(params, 300);
   const { isLoading, error, data: list } = useProjects(debouncedParam);
   const { data: users } = useUsers();
