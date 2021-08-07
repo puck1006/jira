@@ -8,9 +8,12 @@ import { resetRoute, useDocumentTitle } from "utils";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes, Navigate } from "react-router";
 import { ProjectScreen } from "screens/project";
+import { ProjectModal } from "screens/project-list/project-modal";
+import { useState } from "react";
 
 export const AuthorizationApp = () => {
   useDocumentTitle("项目列表", false);
+  const [projectModalVisible, setProjectModalVisible] = useState(false);
 
   return (
     <Container>
@@ -27,12 +30,15 @@ export const AuthorizationApp = () => {
           </Routes>
         </Router>
       </Main>
+      <ProjectModal
+        projectModalVisible={projectModalVisible}
+        onClose={() => setProjectModalVisible(false)}
+      />
     </Container>
   );
 };
 
 export const PageHeader = () => {
-  const { logout, user } = useAuth();
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
@@ -44,21 +50,28 @@ export const PageHeader = () => {
       </HeaderLeft>
       <HeaderLeft />
       <HeaderRight>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key={"logout"}>
-                <Button type={"link"} onClick={logout}>
-                  登出
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
-        >
-          <Button type={"link"}>Hi,{user?.name}</Button>
-        </Dropdown>
+        <User />
       </HeaderRight>
     </Header>
+  );
+};
+
+const User = () => {
+  const { logout, user } = useAuth();
+  return (
+    <Dropdown
+      overlay={
+        <Menu>
+          <Menu.Item key={"logout"}>
+            <Button type={"link"} onClick={logout}>
+              登出
+            </Button>
+          </Menu.Item>
+        </Menu>
+      }
+    >
+      <Button type={"link"}>Hi,{user?.name}</Button>
+    </Dropdown>
   );
 };
 
