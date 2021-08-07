@@ -19,4 +19,42 @@ export const useProjects = (param?: Partial<Project>) => {
 
 export const useEditProject = () => {
   // 需要id 以及 可选参数
+
+  const { run, ...restAsync } = useAsync();
+  const client = useHttp();
+
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        method: "PATCH",
+        data: cleanObject(params || {}),
+      })
+    );
+  };
+
+  return {
+    mutate,
+    restAsync,
+  };
+};
+
+export const useAddProject = () => {
+  // 需要id 以及 可选参数
+
+  const { run, ...restAsync } = useAsync();
+  const client = useHttp();
+
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        method: "POST",
+        data: cleanObject(params || {}),
+      })
+    );
+  };
+
+  return {
+    mutate,
+    restAsync,
+  };
 };

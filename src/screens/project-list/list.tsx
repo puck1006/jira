@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { User } from "./search-panel";
 import { Link } from "react-router-dom";
 import { Pin } from "component/pin";
+import { useEditProject } from "utils/project";
 
 export interface Project {
   id: number;
@@ -18,6 +19,9 @@ interface ListProps extends TableProps<Project> {
 }
 
 export const List = ({ users, ...props }: ListProps) => {
+  const { mutate } = useEditProject();
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+
   return (
     <Table
       rowKey={"id"}
@@ -26,7 +30,12 @@ export const List = ({ users, ...props }: ListProps) => {
         {
           title: <Pin checked={true} disabled={true} />,
           render(value, project) {
-            return <Pin checked={project.pin} />;
+            return (
+              <Pin
+                checked={project.pin}
+                onCheckedChange={pinProject(project.id)}
+              />
+            );
           },
         },
         {
