@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 const isVoid = (value: unknown) =>
   value === undefined || value === null || value === "";
 
+export const resetRoute = () => (window.location.href = window.location.origin);
+
 export const cleanObject = (object: { [key: string]: unknown }) => {
   const result = { ...object };
   Object.keys(result).forEach((key) => {
@@ -71,4 +73,15 @@ export const useDocumentTitle = (
   }, [keepOnUomount, oldTitle]);
 };
 
-export const resetRoute = () => (window.location.href = window.location.origin);
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  });
+
+  return mountedRef;
+};
