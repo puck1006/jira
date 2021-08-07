@@ -27,8 +27,6 @@ export const http = async (
   } else {
     config.body = JSON.stringify(data || {});
   }
-
-  console.log(apiUrl);
   return fetch(`${apiUrl}/${endPoint}`, config).then(async (res) => {
     if (res.status === 401) {
       await auth.logout();
@@ -50,19 +48,3 @@ export const useHttp = () => {
   return (...[endpoint, config]: Parameters<typeof http>) =>
     http(endpoint, { ...config, token: user?.token });
 };
-
-// type Person = {
-//   name: string;
-//   age: number;
-// };
-
-// const xiaoming: Partial<Person> = {};
-// console.log(xiaoming);
-
-// type Partial<T> = {
-//   [P in keyof T]?: T[P];
-// };
-
-// type PersonKeys = keyof Person;
-
-// type age = Exclude<PersonKeys, "name">;

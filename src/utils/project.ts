@@ -16,3 +16,7 @@ export const useProjects = (param?: Partial<Project>) => {
 
   return result;
 };
+
+export const useEditProject = () => {
+  // 需要id 以及 可选参数
+};
