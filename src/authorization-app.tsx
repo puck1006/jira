@@ -1,5 +1,4 @@
-import styled from "@emotion/styled";
-import { Row } from "component/lib";
+import { ButtonNoPadding, Row } from "component/lib";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/project-list";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
@@ -10,6 +9,8 @@ import { Route, Routes, Navigate } from "react-router";
 import { ProjectScreen } from "screens/project";
 import { ProjectModal } from "screens/project-list/project-modal";
 import { useState } from "react";
+import { ProjectPopover } from "component/project-popover";
+import styled from "@emotion/styled";
 
 export const AuthorizationApp = () => {
   useDocumentTitle("项目列表", false);
@@ -42,11 +43,11 @@ export const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button type={"link"} onClick={resetRoute}>
+        <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
-        </Button>
-        <h2>项目</h2>
-        <h2>用户</h2>
+        </ButtonNoPadding>
+        <ProjectPopover />
+        <span>用户</span>
       </HeaderLeft>
       <HeaderLeft />
       <HeaderRight>

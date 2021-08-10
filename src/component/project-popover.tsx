@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import { List, Popover, Typography } from "antd";
+import { Divider, List, Popover, Typography } from "antd";
 import { useProjects } from "utils/project";
+import { ButtonNoPadding } from "./lib";
 
 export const ProjectPopover = () => {
   const { data: projects } = useProjects();
@@ -16,6 +17,8 @@ export const ProjectPopover = () => {
           </List.Item>
         ))}
       </List>
+      <Divider />
+      <ButtonNoPadding type={"link"}> 创建项目 </ButtonNoPadding>
     </ContentContainer>
   );
   return (

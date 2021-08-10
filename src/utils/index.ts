@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-
 // const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 const isVoid = (value: unknown) =>
   value === undefined || value === null || value === "";
