@@ -5,20 +5,11 @@ import { http } from "utils/http";
 import * as auth from "../auth-provider";
 import { useAsync } from "../utils/use-async";
 import { FullPageError, FullPageLoading } from "../component/lib";
+import { useDispatch, useSelector } from "react-redux";
+import { userState } from "store/auth";
+import * as authSlice from "store/auth";
 
-const AuthContext = React.createContext<
-  | {
-      user: User | null;
-      login: (form: AuthForm) => Promise<void>;
-      register: (form: AuthForm) => Promise<void>;
-      logout: () => Promise<void>;
-    }
-  | undefined
->(undefined);
-
-AuthContext.displayName = "AutuContext";
-
-interface AuthForm {
+export interface AuthForm {
   username: string;
   password: string;
 }
@@ -35,21 +26,12 @@ export const bootstrapUser = async () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const {
-    data: user,
-    isLoading,
-    isError,
-    isIdle,
-    run,
-    setData: setUser,
-    error,
-  } = useAsync<User | null>();
-  const login = (form: AuthForm) => auth.login(form).then(setUser);
-  const register = (form: AuthForm) => auth.register(form).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
+  const { isLoading, isError, isIdle, run, error } = useAsync<User | null>();
+
+  const dispatch: (...args: unknown[]) => Promise<User> = useDispatch();
 
   useMount(() => {
-    run(bootstrapUser());
+    run(dispatch(authSlice.bootstrap()));
   });
 
   if (isLoading || isIdle) {
@@ -60,20 +42,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return <FullPageError error={error} />;
   }
 
-  return (
-    <AuthContext.Provider
-      children={children}
-      value={{ user, login, register, logout }}
-    />
-  );
+  return <div>{children}</div>;
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const user = useSelector(userState);
+  const dispatch: (...args: unknown[]) => Promise<User> = useDispatch();
+  const login = (form: AuthForm) => dispatch(authSlice.login(form));
+  const register = (form: AuthForm) => dispatch(authSlice.register(form));
+  const logout = () => dispatch(authSlice.logout());
 
-  if (!context) {
-    throw new Error("context 必须在 AuthProvider 中使用 ");
-  }
-
-  return context;
+  return {
+    user,
+    login,
+    register,
+    logout,
+  };
 };
