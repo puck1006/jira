@@ -1,66 +1,53 @@
 import { Project } from "../screens/project-list/list";
 import { useHttp } from "./http";
 import { useAsync } from "./use-async";
-import { useCallback, useEffect } from "react";
 import { cleanObject } from "./index";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
+import { useCallback, useEffect } from "react";
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
 
-  const { run, ...result } = useAsync<Project[]>();
-
-  const fetchProject = useCallback(
-    () => client("projects", { data: cleanObject(param || {}) }),
-    [client, param]
+  return useQuery<Project[]>(["projects", param], () =>
+    client("projects", { data: cleanObject(param || {}) })
   );
-
-  useEffect(() => {
-    run(fetchProject(), {
-      retry: fetchProject,
-    });
-  }, [fetchProject, param, run]);
-
-  return result;
 };
 
 export const useEditProject = () => {
   // 需要id 以及 可选参数
-
-  const { run, ...restAsync } = useAsync();
   const client = useHttp();
+  const queryClient = useQueryClient();
 
-  const mutate = (params: Partial<Project>) => {
-    return run(
+  return useMutation(
+    (params: Partial<Project>) =>
       client(`projects/${params.id}`, {
+        data: params,
         method: "PATCH",
-        data: cleanObject(params || {}),
-      })
-    );
-  };
-
-  return {
-    mutate,
-    restAsync,
-  };
+      }),
+    {
+      onSuccess: () => queryClient.invalidateQueries("projects"),
+    }
+  );
 };
 
 export const useAddProject = () => {
   // 需要id 以及 可选参数
-
-  const { run, ...restAsync } = useAsync();
   const client = useHttp();
+  const queryClient = useQueryClient();
 
-  const mutate = (params: Partial<Project>) => {
-    return run(
+  return useMutation(
+    (params: Partial<Project>) =>
       client(`projects/${params.id}`, {
         method: "POST",
         data: cleanObject(params || {}),
-      })
-    );
-  };
-
-  return {
-    mutate,
-    restAsync,
-  };
+      }),
+    {
+      onSuccess: () => queryClient.invalidateQueries("projects"),
+    }
+  );
 };

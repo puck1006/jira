@@ -6,6 +6,7 @@ import { Typography } from "antd";
 import { useProjects } from "../../utils/project";
 import { useUsers } from "../../utils/user";
 import { useProjectSearchParams } from "./util";
+import { ErrorBox } from "component/lib";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useProjectSearchParams();
@@ -13,7 +14,6 @@ export const ProjectListScreen = () => {
     isLoading,
     error,
     data: list,
-    retry,
   } = useProjects(useDebounce(params, 300));
   const { data: users } = useUsers();
 
@@ -21,15 +21,8 @@ export const ProjectListScreen = () => {
     <Container>
       <h1>项目列表</h1>
       <SearchPanel params={params} setParams={setParams} users={users || []} />
-      {error ? (
-        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-      ) : null}
-      <List
-        retry={retry}
-        dataSource={list || []}
-        users={users || []}
-        loading={isLoading}
-      />
+      <ErrorBox error={error} />
+      <List dataSource={list || []} users={users || []} loading={isLoading} />
     </Container>
   );
 };

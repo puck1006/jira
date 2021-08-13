@@ -7,6 +7,7 @@ import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
 import { useDocumentTitle } from "utils";
+import { ErrorBox } from "component/lib";
 
 export const UnauthorizationApp = () => {
   const [isRegister, setisRegister] = useState(false);
@@ -20,9 +21,7 @@ export const UnauthorizationApp = () => {
       <Header />
       <ShadowCard>
         <Title> {isRegister ? "请注册" : "请登录"} </Title>
-        {error ? (
-          <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-        ) : null}
+        <ErrorBox error={error} />
         {isRegister ? (
           <RegisterScreen onError={setError} />
         ) : (

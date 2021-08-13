@@ -54,6 +54,7 @@ export const PageHeader = () => {
 
 const User = () => {
   const { logout, user } = useAuth();
+
   return (
     <Dropdown
       overlay={
