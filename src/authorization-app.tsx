@@ -8,19 +8,17 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes, Navigate } from "react-router";
 import { ProjectScreen } from "screens/project";
 import { ProjectModal } from "screens/project-list/project-modal";
-import { useState } from "react";
 import { ProjectPopover } from "component/project-popover";
 import styled from "@emotion/styled";
 
 export const AuthorizationApp = () => {
   useDocumentTitle("项目列表", false);
-  const [projectModalVisible, setProjectModalVisible] = useState(false);
 
   return (
     <Container>
-      <PageHeader />
-      <Main>
-        <Router>
+      <Router>
+        <PageHeader />
+        <Main>
           <Routes>
             <Route path={"/projects"} element={<ProjectListScreen />} />
             <Route
@@ -29,12 +27,9 @@ export const AuthorizationApp = () => {
             />
             <Navigate to={"/projects"} />
           </Routes>
-        </Router>
-      </Main>
-      <ProjectModal
-        projectModalVisible={projectModalVisible}
-        onClose={() => setProjectModalVisible(false)}
-      />
+        </Main>
+        <ProjectModal />
+      </Router>
     </Container>
   );
 };
