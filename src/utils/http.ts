@@ -10,6 +10,8 @@ interface Config extends RequestInit {
   data?: object;
 }
 
+console.log("delete sh");
+
 export const http = async (
   endPoint: string,
   { data, token, headers, ...customConfig }: Config = {}
