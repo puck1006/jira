@@ -2,7 +2,11 @@ import { Project } from "../screens/project-list/list";
 import { useHttp } from "./http";
 import { cleanObject } from "./index";
 import { QueryKey, useMutation, useQuery } from "react-query";
-import { useAddConfig, useEditConfig } from "./use-optimistic-options";
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useEditConfig,
+} from "./use-optimistic-options";
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
@@ -37,6 +41,19 @@ export const useAddProject = (queryKey: QueryKey) => {
         data: cleanObject(params || {}),
       }),
     useAddConfig(queryKey)
+  );
+};
+
+export const useDeleteProject = (queryKey: QueryKey) => {
+  // 需要id 以及 可选参数
+  const client = useHttp();
+
+  return useMutation(
+    (params: Partial<Project>) =>
+      client(`projects/${params.id}`, {
+        method: "DELETE",
+      }),
+    useDeleteConfig(queryKey)
   );
 };
 
