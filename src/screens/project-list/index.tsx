@@ -2,7 +2,6 @@ import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import { useDebounce } from "utils";
 import styled from "@emotion/styled";
-import { Typography } from "antd";
 import { useProjects } from "../../utils/project";
 import { useUsers } from "../../utils/user";
 import { useProjectSearchParams } from "./util";
