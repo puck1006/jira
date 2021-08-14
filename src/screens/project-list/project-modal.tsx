@@ -4,14 +4,18 @@ import { ErrorBox } from "component/lib";
 import { UserSelect } from "component/user-select";
 import { useEffect } from "react";
 import { useAddProject, useEditProject } from "utils/project";
-import { useProjectModal } from "./util";
+import { useProjectModal, useProjectQueryKey } from "./util";
 
 export const ProjectModal = () => {
   const { close, projectModalOpen, editingProject, isLoading } =
     useProjectModal();
   const useMutateProject = editingProject ? useEditProject : useAddProject;
 
-  const { isLoading: mutateLoading, mutateAsync, error } = useMutateProject();
+  const {
+    isLoading: mutateLoading,
+    mutateAsync,
+    error,
+  } = useMutateProject(useProjectQueryKey());
   const [form] = useForm();
 
   const onFinish = (value: any) => {

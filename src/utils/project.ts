@@ -1,9 +1,8 @@
 import { Project } from "../screens/project-list/list";
 import { useHttp } from "./http";
 import { cleanObject } from "./index";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useProjectSearchParams } from "screens/project-list/util";
-import { useEditConfig } from "./use-optimistic-options";
+import { QueryKey, useMutation, useQuery } from "react-query";
+import { useAddConfig, useEditConfig } from "./use-optimistic-options";
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
@@ -13,12 +12,9 @@ export const useProjects = (param?: Partial<Project>) => {
   );
 };
 
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
   // 需要id 以及 可选参数
   const client = useHttp();
-
-  const [searchParam] = useProjectSearchParams();
-  const queryKey = ["projects", searchParam];
 
   return useMutation(
     (params: Partial<Project>) =>
@@ -30,10 +26,9 @@ export const useEditProject = () => {
   );
 };
 
-export const useAddProject = () => {
+export const useAddProject = (queryKey: QueryKey) => {
   // 需要id 以及 可选参数
   const client = useHttp();
-  const queryClient = useQueryClient();
 
   return useMutation(
     (params: Partial<Project>) =>
@@ -41,9 +36,7 @@ export const useAddProject = () => {
         method: "POST",
         data: cleanObject(params || {}),
       }),
-    {
-      onSuccess: () => queryClient.invalidateQueries("projects"),
-    }
+    useAddConfig(queryKey)
   );
 };
 
