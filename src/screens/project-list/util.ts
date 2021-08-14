@@ -20,11 +20,8 @@ export const useProjectModal = () => {
     "editingProjectId",
   ]);
   const { data: editingProject, isLoading } = useProject(+editingProjectId);
-
   const setSearchParams = useSetUrlSearchParam();
-
   const open = () => setProjectCreate({ projectCreate: true });
-
   const close = () => {
     setSearchParams({ projectCreate: undefined, editingProjectId: undefined });
   };

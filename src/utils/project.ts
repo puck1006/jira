@@ -2,6 +2,8 @@ import { Project } from "../screens/project-list/list";
 import { useHttp } from "./http";
 import { cleanObject } from "./index";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useProjectSearchParams } from "screens/project-list/util";
+import { useEditConfig } from "./use-optimistic-options";
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
@@ -14,7 +16,9 @@ export const useProjects = (param?: Partial<Project>) => {
 export const useEditProject = () => {
   // 需要id 以及 可选参数
   const client = useHttp();
-  const queryClient = useQueryClient();
+
+  const [searchParam] = useProjectSearchParams();
+  const queryKey = ["projects", searchParam];
 
   return useMutation(
     (params: Partial<Project>) =>
@@ -22,9 +26,7 @@ export const useEditProject = () => {
         data: params,
         method: "PATCH",
       }),
-    {
-      onSuccess: () => queryClient.invalidateQueries("projects"),
-    }
+    useEditConfig(queryKey)
   );
 };
 
