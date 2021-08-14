@@ -6,7 +6,6 @@ import { Pin } from "component/pin";
 import { useDeleteProject, useEditProject } from "utils/project";
 import { ButtonNoPadding } from "component/lib";
 import { useProjectModal, useProjectQueryKey } from "./util";
-import { useDeleteConfig } from "utils/use-optimistic-options";
 
 export interface Project {
   id: number;
