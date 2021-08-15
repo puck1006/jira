@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useDocumentTitle } from "utils";
 import { useKanbans } from "utils/kanban";
 import { KanbanColumn } from "./kanban-column";
+import { SearchPanel } from "./search-panel";
 import { useKanbanSearchParams, useProjectInUrl } from "./util";
 
 export const KanbanScreen = () => {
@@ -13,6 +14,7 @@ export const KanbanScreen = () => {
   return (
     <div>
       <h1> {project?.name}列表 </h1>
+      <SearchPanel />
       <KanbanContainer>
         {kanbans?.map((kanban) => (
           <KanbanColumn key={kanban.id} kanban={kanban} />
