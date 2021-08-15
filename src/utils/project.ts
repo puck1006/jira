@@ -1,4 +1,4 @@
-import { Project } from "../screens/project-list/list";
+import { Project } from "../screens/project-list/Project";
 import { useHttp } from "./http";
 import { cleanObject } from "./index";
 import { QueryKey, useMutation, useQuery } from "react-query";
