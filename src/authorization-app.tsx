@@ -89,4 +89,5 @@ const HeaderRight = styled.div``;
 
 const Main = styled.div`
   height: calc(100vh - 6rem);
+  display: flex;
 `;

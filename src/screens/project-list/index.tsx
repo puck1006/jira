@@ -17,16 +17,19 @@ export const ProjectListScreen = () => {
   const { data: users } = useUsers();
 
   return (
-    <Container>
+    <ScreenContainer>
       <h1>项目列表</h1>
       <SearchPanel params={params} setParams={setParams} users={users || []} />
       <ErrorBox error={error} />
       <List dataSource={list || []} users={users || []} loading={isLoading} />
-    </Container>
+    </ScreenContainer>
   );
 };
 ProjectListScreen.whyDidYouRender = false;
 
-export const Container = styled.div`
+export const ScreenContainer = styled.div`
   padding: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
