@@ -26,7 +26,7 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
         {tasks?.map((task) => (
           <Card
             key={task.id}
-            style={{ marginBottom: "0.5rem" }}
+            style={{ marginBottom: "0.5rem", cursor: "pointer" }}
             onClick={() => startEdit(task.id)}
           >
             <h3> {kanban.name} </h3>
