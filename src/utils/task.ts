@@ -2,7 +2,7 @@ import { QueryKey, useMutation, useQuery } from "react-query";
 import { Task } from "types/task";
 import { cleanObject, useDebounce } from "utils";
 import { useHttp } from "./http";
-import { useAddConfig } from "./use-optimistic-options";
+import { useAddConfig, useDeleteConfig } from "./use-optimistic-options";
 
 export const useTasks = (param?: Partial<Task>) => {
   const client = useHttp();
@@ -23,5 +23,18 @@ export const useAddTask = (queryKey: QueryKey) => {
         data: cleanObject(params || {}),
       }),
     useAddConfig(queryKey)
+  );
+};
+
+export const useDeleteTask = (queryKey: QueryKey) => {
+  // 需要id 以及 可选参数
+  const client = useHttp();
+
+  return useMutation(
+    (params: Partial<Task>) =>
+      client(`tasks/${params.id}`, {
+        method: "DELETE",
+      }),
+    useDeleteConfig(queryKey)
   );
 };

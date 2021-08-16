@@ -1,14 +1,16 @@
 import { Kanban } from "types/kanban";
 import { useTasks } from "utils/task";
 import { useTaskTypes } from "utils/task-type";
-import { useTaskModal, useTaskSearchParams } from "./util";
+import { useKanbansQueryKey, useTaskModal, useTaskSearchParams } from "./util";
 import bugIcon from "assets/bug.svg";
 import taskIcon from "assets/task.svg";
 import styled from "@emotion/styled";
-import { Card } from "antd";
+import { Button, Card, Dropdown, Menu, Modal } from "antd";
 import { CreateTask } from "./create-task";
 import { Task } from "types/task";
 import { Mask } from "component/masl";
+import { useDeleteKanban } from "utils/kanban";
+import { Row } from "component/lib";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -25,7 +27,9 @@ const TaskCard = ({ task }: { task: Task }) => {
       style={{ marginBottom: "0.5rem", cursor: "pointer" }}
       onClick={() => startEdit(task.id)}
     >
-      <Mask name={task.name} keyword={keyword || ""} />
+      <p>
+        <Mask name={task.name} keyword={keyword || ""} />
+      </p>
       <TaskTypeIcon id={task.id} />
     </Card>
   );
@@ -37,7 +41,10 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
 
   return (
     <Container>
-      <h3>{kanban.name}</h3>
+      <Row between={true}>
+        <h3>{kanban.name}</h3>
+        <More kanban={kanban} />
+      </Row>
       <TaskContainer>
         {tasks?.map((task) => (
           <TaskCard task={task} />
@@ -45,6 +52,37 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
         <CreateTask kanban={kanban} />
       </TaskContainer>
     </Container>
+  );
+};
+
+const More = ({ kanban }: { kanban: Kanban }) => {
+  const { mutateAsync } = useDeleteKanban(useKanbansQueryKey());
+
+  const startDelete = () => {
+    Modal.confirm({
+      okText: "确定",
+      cancelText: "取消",
+      title: "确定删除看板吗?",
+      onOk() {
+        mutateAsync({ id: kanban.id });
+      },
+    });
+  };
+
+  const Overlay = (
+    <Menu>
+      <Menu.Item key={"delete"}>
+        <Button type={"link"} onClick={startDelete}>
+          删除
+        </Button>
+      </Menu.Item>
+    </Menu>
+  );
+
+  return (
+    <Dropdown overlay={Overlay}>
+      <Button type={"link"}>...</Button>
+    </Dropdown>
   );
 };
 

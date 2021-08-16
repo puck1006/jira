@@ -3,7 +3,11 @@ import { Kanban } from "types/kanban";
 import { Task } from "types/task";
 import { cleanObject } from "utils";
 import { useHttp } from "./http";
-import { useAddConfig, useEditConfig } from "./use-optimistic-options";
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useEditConfig,
+} from "./use-optimistic-options";
 
 export const useKanbans = (param?: Partial<Kanban>) => {
   const client = useHttp();
@@ -44,5 +48,18 @@ export const useEditTask = (queryKey: QueryKey) => {
         method: "PATCH",
       }),
     useEditConfig(queryKey)
+  );
+};
+
+export const useDeleteKanban = (queryKey: QueryKey) => {
+  // 需要id 以及 可选参数
+  const client = useHttp();
+
+  return useMutation(
+    (params: Partial<Kanban>) =>
+      client(`kanbans/${params.id}`, {
+        method: "DELETE",
+      }),
+    useDeleteConfig(queryKey)
   );
 };
