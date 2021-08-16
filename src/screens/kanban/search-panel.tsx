@@ -12,7 +12,7 @@ export const SearchPanel = () => {
   const reset = () => {
     setSearchParams({
       name: undefined,
-      processorId: undefined,
+      processodId: undefined,
       typeId: undefined,
     });
   };
@@ -28,7 +28,9 @@ export const SearchPanel = () => {
       <UserSelect
         defaultOptionName={"负责人"}
         value={params.processodId}
-        onChange={(value) => setSearchParams({ processodId: value })}
+        onChange={(value) => {
+          setSearchParams({ processodId: value });
+        }}
       />
       <TypeSelect
         defaultOptionName={"类型"}

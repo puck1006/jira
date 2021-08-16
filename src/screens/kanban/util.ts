@@ -16,7 +16,7 @@ export const useKanbanSearchParams = () => ({ projectId: useProjectIdInUrl() });
 export const useKanbansQueryKey = () => ["kanbans", useKanbanSearchParams()];
 
 export const useTaskSearchParams = () => {
-  const [params] = useUrlQueryParams(["name", "processorId", "typeId"]);
+  const [params] = useUrlQueryParams(["name", "processodId", "typeId"]);
 
   const projectId = useProjectIdInUrl();
 
@@ -24,7 +24,7 @@ export const useTaskSearchParams = () => {
     return {
       projectId,
       name: params.name || undefined,
-      processodId: Number(params.processorId) || undefined,
+      processodId: Number(params.processodId) || undefined,
       typeId: Number(params.typeId) || undefined,
     };
   }, [params, projectId]);

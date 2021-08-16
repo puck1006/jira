@@ -11,7 +11,7 @@ export const CreateKanban = () => {
   const { mutateAsync: addKanban } = useAddKanban(useKanbansQueryKey());
 
   const submit = async () => {
-    addKanban({ name, projectId });
+    await addKanban({ name, projectId });
     setName("");
   };
 

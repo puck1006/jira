@@ -6,8 +6,9 @@ export const useConfig = (
 ) => {
   const queryClient = useQueryClient();
   return {
-    onSuccess: () => queryClient.invalidateQueries("projects"),
+    onSuccess: () => queryClient.invalidateQueries(queryKey),
     async onMutate(target: any) {
+      console.log(target);
       const previewItems = queryClient.getQueryData(queryKey);
       queryClient.setQueryData(queryKey, (old?: any[]) => {
         return callback(target, old);
