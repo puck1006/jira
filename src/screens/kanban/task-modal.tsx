@@ -1,9 +1,10 @@
-import { Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { TypeSelect } from "component/type-select";
 import { UserSelect } from "component/user-select";
 import { useEffect } from "react";
 import { useEditTask } from "utils/kanban";
+import { useDeleteTask } from "utils/task";
 import { useTaskModal, useTasksQueryKey } from "./util";
 
 export const TaskModal = () => {
@@ -27,6 +28,20 @@ export const TaskModal = () => {
   useEffect(() => {
     form.setFieldsValue(editingTask);
   }, [editingTask, form]);
+
+  const { mutateAsync: deleteMutate } = useDeleteTask(useTasksQueryKey());
+
+  const deleteModal = () => {
+    Modal.confirm({
+      okText: "确定",
+      cancelText: "取消",
+      title: "确定删除任务吗?",
+      onOk() {
+        deleteMutate({ id: +editingTaskId });
+        close();
+      },
+    });
+  };
 
   return (
     <Modal
@@ -67,6 +82,12 @@ export const TaskModal = () => {
           <TypeSelect defaultOptionName={"类型"} />
         </Form.Item>
       </Form>
+
+      <div style={{ textAlign: "right" }}>
+        <Button size={"middle"} onClick={deleteModal}>
+          删除
+        </Button>
+      </div>
     </Modal>
   );
 };
