@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { Button, Drawer, Form, Input, Spin } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { ErrorBox } from "component/lib";
@@ -45,7 +46,7 @@ export const ProjectModal = () => {
       {isLoading ? (
         <Spin size={"large"} />
       ) : (
-        <>
+        <Container>
           <h1> {title} </h1>
           <ErrorBox error={error} />
           <Form
@@ -81,8 +82,15 @@ export const ProjectModal = () => {
               </Button>
             </Form.Item>
           </Form>
-        </>
+        </Container>
       )}
     </Drawer>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
