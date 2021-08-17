@@ -16,14 +16,11 @@ import {
 
 export const KanbanScreen = () => {
   useDocumentTitle("看板列表");
-
   const { data: project } = useProjectInUrl();
-
   const { data: kanbans, isLoading: kanbanIsloading } = useKanbans(
     useKanbanSearchParams()
   );
   const { isLoading: tasksIsloading } = useTasks(useTaskSearchParams());
-
   const isloading = kanbanIsloading || tasksIsloading;
 
   return (

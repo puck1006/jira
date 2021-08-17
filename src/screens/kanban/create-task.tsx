@@ -8,7 +8,6 @@ export const CreateTask = ({ kanban }: { kanban: Kanban }) => {
   const [name, setName] = useState("");
   const { mutateAsync: addTask } = useAddTask(useTasksQueryKey());
   const [inputModal, setInputModal] = useState(false);
-
   const projectId = useProjectIdInUrl();
   const submit = async () => {
     await addTask({

@@ -2,9 +2,7 @@ export const Mask = ({ name, keyword }: { name: string; keyword: string }) => {
   if (!keyword) {
     return <> {name} </>;
   }
-
   const arr = name.split(keyword);
-
   return (
     <>
       {arr.map((item, index) => (
