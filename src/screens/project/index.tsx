@@ -35,12 +35,12 @@ export const ProjectScreen = () => {
   );
 };
 
-const Aside = styled.div`
+const Aside = styled.aside`
   background-color: rgba(244, 245, 247);
   display: flex;
 `;
 
-const Main = styled.div`
+const Main = styled.main`
   box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   display: flex;
@@ -50,4 +50,5 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 16rem 1fr;
   overflow: hidden;
+  width: 100%;
 `;

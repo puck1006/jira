@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Spin } from "antd";
+import { Drag, Drop, DropChild } from "component/drag-and-drop";
 import { DragDropContext } from "react-beautiful-dnd";
 import { ScreenContainer } from "screens/project-list";
 import { useDocumentTitle } from "utils";
@@ -33,9 +34,23 @@ export const KanbanScreen = () => {
           <Spin size={"large"} />
         ) : (
           <ColumnContainer>
-            {kanbans?.map((kanban) => (
-              <KanbanColumn key={kanban.id} kanban={kanban} />
-            ))}
+            <Drop
+              type={"column"}
+              direction={"horizontal"}
+              droppableId={"kanban"}
+            >
+              <DropChild style={{ display: "flex" }}>
+                {kanbans?.map((kanban, index) => (
+                  <Drag
+                    draggableId={"kanban" + kanban.id}
+                    index={index}
+                    key={kanban.id}
+                  >
+                    <KanbanColumn key={kanban.id} kanban={kanban} />
+                  </Drag>
+                ))}
+              </DropChild>
+            </Drop>
             <CreateKanban key={"createKanban"} />
             <TaskModal />
           </ColumnContainer>
