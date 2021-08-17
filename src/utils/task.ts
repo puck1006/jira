@@ -6,7 +6,7 @@ import { SortProps } from "./kanban";
 import {
   useAddConfig,
   useDeleteConfig,
-  useReorderConfig,
+  useReorderTaskConfig,
 } from "./use-optimistic-options";
 
 export const useTasks = (param?: Partial<Task>) => {
@@ -49,5 +49,5 @@ export const useRecordTask = (queryKey: QueryKey) => {
 
   return useMutation((params: SortProps) => {
     return client("tasks/reorder", { data: params, method: "POST" });
-  }, useReorderConfig(queryKey));
+  }, useReorderTaskConfig(queryKey));
 };

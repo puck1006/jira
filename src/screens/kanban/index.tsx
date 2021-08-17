@@ -69,7 +69,7 @@ const useDragEnd = () => {
   const { data: kanbans } = useKanbans(useKanbanSearchParams());
   const { mutate: recordKanban } = useRecordKanban(useKanbansQueryKey());
   const { data: allTasks = [] } = useTasks(useTaskSearchParams());
-  const { mutate: recordTask } = useRecordTask(useTasksQueryKey());
+  const { mutate: reorderTask } = useRecordTask(useTasksQueryKey());
 
   return useCallback(
     ({ source, destination, type }: DropResult) => {
@@ -89,31 +89,39 @@ const useDragEnd = () => {
       }
 
       if (type === "Row") {
-        // if (source.droppableId !== destination.droppableId) {
-        //   return;
-        // }
-
         const fromTask = allTasks.filter(
           (task) => task.kanbanId === +source.droppableId
         )[source.index];
         const toTask = allTasks.filter(
-          (task) => task.kanbanId === +source.droppableId
+          (task) => task.kanbanId === +destination.droppableId
         )[destination.index];
 
-        if (fromTask?.id === toTask?.id) {
+        if (
+          source.droppableId === destination.droppableId &&
+          fromTask?.id === toTask?.id
+        ) {
           return;
         }
 
-        recordTask({
+        reorderTask({
           fromId: fromTask?.id,
           referenceId: toTask?.id,
-          type: destination.index > source.index ? "after" : "before",
+          type:
+            +source.droppableId === +destination.droppableId &&
+            destination.index > source.index
+              ? "after"
+              : "before",
+          // type:
+          //   source.droppableId === destination.droppableId ?
+          //   destination.index > source.index
+          //     ? "after"
+          //     : "before" : 'after',
           fromKanbanId: +source.droppableId,
           toKanbanId: +destination.droppableId,
         });
       }
     },
-    [allTasks, kanbans, recordKanban, recordTask]
+    [allTasks, kanbans, recordKanban, reorderTask]
   );
 };
 

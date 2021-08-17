@@ -7,7 +7,7 @@ import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
-  useReorderConfig,
+  useReorderKanbanConfig,
 } from "./use-optimistic-options";
 
 export const useKanbans = (param?: Partial<Kanban>) => {
@@ -76,5 +76,5 @@ export const useRecordKanban = (queryKey: QueryKey) => {
 
   return useMutation((params: SortProps) => {
     return client("kanbans/reorder", { data: params, method: "POST" });
-  }, useReorderConfig(queryKey));
+  }, useReorderKanbanConfig(queryKey));
 };
