@@ -1,17 +1,19 @@
 import styled from "@emotion/styled";
 import { Spin } from "antd";
 import { Drag, Drop, DropChild } from "component/drag-and-drop";
-import { DragDropContext } from "react-beautiful-dnd";
+import { useCallback } from "react";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { ScreenContainer } from "screens/project-list";
 import { useDocumentTitle } from "utils";
-import { useKanbans } from "utils/kanban";
-import { useTasks } from "utils/task";
+import { useKanbans, useRecordKanban } from "utils/kanban";
+import { useRecordTask, useTasks } from "utils/task";
 import { CreateKanban } from "./create-kanban";
 import { KanbanColumn } from "./kanban-column";
 import { SearchPanel } from "./search-panel";
 import { TaskModal } from "./task-modal";
 import {
   useKanbanSearchParams,
+  useKanbansQueryKey,
   useProjectInUrl,
   useTaskSearchParams,
 } from "./util";
@@ -25,8 +27,10 @@ export const KanbanScreen = () => {
   const { isLoading: tasksIsloading } = useTasks(useTaskSearchParams());
   const isloading = kanbanIsloading || tasksIsloading;
 
+  const onDragEnd = useDragEnd();
+
   return (
-    <DragDropContext onDragEnd={() => {}}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <ScreenContainer>
         <h1> {project?.name}列表 </h1>
         <SearchPanel />
@@ -57,6 +61,61 @@ export const KanbanScreen = () => {
         )}
       </ScreenContainer>
     </DragDropContext>
+  );
+};
+
+const useDragEnd = () => {
+  const { data: kanbans } = useKanbans(useKanbanSearchParams());
+  const { mutate: recordKanban } = useRecordKanban();
+
+  const { data: allTasks = [] } = useTasks(useTaskSearchParams());
+  const { mutate: recordTask } = useRecordTask();
+
+  return useCallback(
+    ({ source, destination, type }: DropResult) => {
+      console.log(source, destination, type);
+      if (!destination) {
+        return;
+      }
+      if (type === "column") {
+        const fromId = kanbans?.[source.index].id;
+        const referenceId = kanbans?.[destination.index].id;
+        if (!fromId || !referenceId || fromId === referenceId) {
+          return;
+        }
+        const innerType = destination.index > source.index ? "after" : "before";
+
+        recordKanban({ fromId, referenceId, type: innerType });
+      }
+
+      if (type === "Row") {
+        if (source.droppableId !== destination.droppableId) {
+          return;
+        }
+
+        console.log(allTasks, +source.droppableId);
+
+        const fromTask = allTasks.filter(
+          (task) => task.kanbanId === +source.droppableId
+        )[source.index];
+        const toTask = allTasks.filter(
+          (task) => task.kanbanId === +source.droppableId
+        )[destination.index];
+
+        if (fromTask?.id === toTask?.id) {
+          return;
+        }
+
+        recordTask({
+          fromId: fromTask.id,
+          referenceId: toTask.id,
+          type: destination.index > source.index ? "after" : "before",
+          fromKanbanId: +source.droppableId,
+          toKanbanId: +destination.droppableId,
+        });
+      }
+    },
+    [allTasks, kanbans, recordKanban, recordTask]
   );
 };
 

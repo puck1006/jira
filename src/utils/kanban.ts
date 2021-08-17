@@ -61,3 +61,19 @@ export const useDeleteKanban = (queryKey: QueryKey) => {
     useDeleteConfig(queryKey)
   );
 };
+
+export interface SortProps {
+  fromId: number;
+  referenceId: number;
+  type: "before" | "after";
+  fromKanbanId?: number;
+  toKanbanId?: number;
+}
+
+export const useRecordKanban = () => {
+  const client = useHttp();
+
+  return useMutation((params: SortProps) => {
+    return client("kanbans/reorder", { data: params, method: "POST" });
+  });
+};
