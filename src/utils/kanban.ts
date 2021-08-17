@@ -18,9 +18,7 @@ export const useKanbans = (param?: Partial<Kanban>) => {
 };
 
 export const useAddKanban = (queryKey: QueryKey) => {
-  // 需要id 以及 可选参数
   const client = useHttp();
-
   return useMutation(
     (params: Partial<Kanban>) =>
       client(`kanbans`, {
