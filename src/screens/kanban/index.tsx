@@ -16,6 +16,7 @@ import {
   useKanbansQueryKey,
   useProjectInUrl,
   useTaskSearchParams,
+  useTasksQueryKey,
 } from "./util";
 
 export const KanbanScreen = () => {
@@ -66,10 +67,9 @@ export const KanbanScreen = () => {
 
 const useDragEnd = () => {
   const { data: kanbans } = useKanbans(useKanbanSearchParams());
-  const { mutate: recordKanban } = useRecordKanban();
-
+  const { mutate: recordKanban } = useRecordKanban(useKanbansQueryKey());
   const { data: allTasks = [] } = useTasks(useTaskSearchParams());
-  const { mutate: recordTask } = useRecordTask();
+  const { mutate: recordTask } = useRecordTask(useTasksQueryKey());
 
   return useCallback(
     ({ source, destination, type }: DropResult) => {
@@ -89,11 +89,9 @@ const useDragEnd = () => {
       }
 
       if (type === "Row") {
-        if (source.droppableId !== destination.droppableId) {
-          return;
-        }
-
-        console.log(allTasks, +source.droppableId);
+        // if (source.droppableId !== destination.droppableId) {
+        //   return;
+        // }
 
         const fromTask = allTasks.filter(
           (task) => task.kanbanId === +source.droppableId
@@ -107,8 +105,8 @@ const useDragEnd = () => {
         }
 
         recordTask({
-          fromId: fromTask.id,
-          referenceId: toTask.id,
+          fromId: fromTask?.id,
+          referenceId: toTask?.id,
           type: destination.index > source.index ? "after" : "before",
           fromKanbanId: +source.droppableId,
           toKanbanId: +destination.droppableId,

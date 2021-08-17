@@ -32,7 +32,7 @@ const TaskCard = ({ task }: { task: Task }) => {
       <p>
         <Mask name={task.name} keyword={keyword || ""} />
       </p>
-      <TaskTypeIcon id={task.id} />
+      <TaskTypeIcon id={task.typeId} />
     </Card>
   );
 };
