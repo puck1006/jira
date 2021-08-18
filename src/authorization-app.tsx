@@ -10,6 +10,7 @@ import { ProjectScreen } from "screens/project";
 import { ProjectModal } from "screens/project-list/project-modal";
 import { ProjectPopover } from "component/project-popover";
 import styled from "@emotion/styled";
+import { UserPopover } from "component/user-popover";
 
 export const AuthorizationApp = () => {
   useDocumentTitle("项目列表", false);
@@ -42,7 +43,7 @@ export const PageHeader = () => {
           <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
         </ButtonNoPadding>
         <ProjectPopover />
-        <span>用户</span>
+        <UserPopover />
       </HeaderLeft>
       <HeaderLeft />
       <HeaderRight>
