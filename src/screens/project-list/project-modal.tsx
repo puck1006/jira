@@ -20,10 +20,12 @@ export const ProjectModal = () => {
   const [form] = useForm();
 
   const onFinish = (value: any) => {
-    mutateAsync({ ...editingProject, ...value }).then(() => {
-      form.resetFields();
-      close();
-    });
+    mutateAsync({ ...editingProject, ...value, key: Math.random() }).then(
+      () => {
+        form.resetFields();
+        close();
+      }
+    );
   };
 
   const closeModal = () => {

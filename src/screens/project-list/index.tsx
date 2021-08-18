@@ -4,8 +4,8 @@ import { useDebounce } from "utils";
 import styled from "@emotion/styled";
 import { useProjects } from "../../utils/project";
 import { useUsers } from "../../utils/user";
-import { useProjectSearchParams } from "./util";
-import { ErrorBox } from "component/lib";
+import { useProjectModal, useProjectSearchParams } from "./util";
+import { ButtonNoPadding, ErrorBox, Row } from "component/lib";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useProjectSearchParams();
@@ -15,10 +15,17 @@ export const ProjectListScreen = () => {
     data: list,
   } = useProjects(useDebounce(params, 300));
   const { data: users } = useUsers();
+  const { open } = useProjectModal();
 
   return (
     <ScreenContainer>
-      <h1>项目列表</h1>
+      <Row between={true}>
+        <h1>项目列表</h1>
+        <ButtonNoPadding type={"link"} onClick={open}>
+          {" "}
+          创建项目{" "}
+        </ButtonNoPadding>
+      </Row>
       <SearchPanel params={params} setParams={setParams} users={users || []} />
       <ErrorBox error={error} />
       <List dataSource={list || []} users={users || []} loading={isLoading} />

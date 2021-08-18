@@ -1,9 +1,11 @@
 import styled from "@emotion/styled";
 import { Spin } from "antd";
 import { Drag, Drop, DropChild } from "component/drag-and-drop";
+import { ButtonNoPadding, Row } from "component/lib";
 import { useCallback } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { ScreenContainer } from "screens/project-list";
+import { useProjectModal } from "screens/project-list/util";
 import { useDocumentTitle } from "utils";
 import { useKanbans, useRecordKanban } from "utils/kanban";
 import { useRecordTask, useTasks } from "utils/task";
@@ -27,7 +29,6 @@ export const KanbanScreen = () => {
   );
   const { isLoading: tasksIsloading } = useTasks(useTaskSearchParams());
   const isloading = kanbanIsloading || tasksIsloading;
-
   const onDragEnd = useDragEnd();
 
   return (
