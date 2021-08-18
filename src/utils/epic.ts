@@ -7,8 +7,8 @@ import { useAddConfig, useDeleteConfig } from "./use-optimistic-options";
 export const useEpics = (param?: Partial<Epic>) => {
   const client = useHttp();
 
-  return useQuery<Epic[]>(["Epics", param], () =>
-    client("Epics", { data: cleanObject(param || {}) })
+  return useQuery<Epic[]>(["epics", param], () =>
+    client("epics", { data: cleanObject(param || {}) })
   );
 };
 
@@ -16,7 +16,7 @@ export const useAddEpic = (queryKey: QueryKey) => {
   const client = useHttp();
   return useMutation(
     (params: Partial<Epic>) =>
-      client(`Epics`, {
+      client(`epics`, {
         method: "POST",
         data: cleanObject(params || {}),
       }),
