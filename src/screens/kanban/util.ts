@@ -11,6 +11,7 @@ export const useProjectIdInUrl = () => {
 
   return Number(id);
 };
+
 export const useProjectInUrl = () => useProject(useProjectIdInUrl());
 
 export const useKanbanSearchParams = () => ({ projectId: useProjectIdInUrl() });
