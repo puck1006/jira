@@ -1,4 +1,4 @@
-import { Button, List } from "antd";
+import { Button, List, Modal } from "antd";
 import { Row } from "component/lib";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 import { useProjectInUrl } from "screens/kanban/util";
 import { ScreenContainer } from "screens/project-list";
 import { useDocumentTitle } from "utils";
-import { useEpics } from "utils/epic";
+import { useDeleteEpic, useEpics } from "utils/epic";
 import { useTasks } from "utils/task";
 import { CreateEpic } from "./create-epic";
-import { useEpicSearchParams } from "./util";
+import { useEpicSearchParams, useEpicsQueryKey } from "./util";
 
 export const EpicScreen = () => {
   useDocumentTitle("任务组");
@@ -17,6 +17,19 @@ export const EpicScreen = () => {
   const { data: epics } = useEpics(useEpicSearchParams());
   const { data: tasks } = useTasks({ projectId: currentProject?.id });
   const [createEpicVisible, setCreateEpicVisible] = useState(false);
+
+  const { mutateAsync: deleteMutate } = useDeleteEpic(useEpicsQueryKey());
+
+  const deleteModal = (id: number) => {
+    Modal.confirm({
+      okText: "确定",
+      cancelText: "取消",
+      title: "确定删除任务组吗?",
+      onOk() {
+        deleteMutate({ id });
+      },
+    });
+  };
 
   return (
     <ScreenContainer>
@@ -42,7 +55,9 @@ export const EpicScreen = () => {
                 title={
                   <Row between={true}>
                     <span> {epic.name} </span>
-                    <Button type={"link"}>删除</Button>
+                    <Button type={"link"} onClick={() => deleteModal(epic.id)}>
+                      删除
+                    </Button>
                   </Row>
                 }
                 description={
