@@ -84,7 +84,6 @@ const useDragEnd = () => {
           return;
         }
         const innerType = destination.index > source.index ? "after" : "before";
-
         recordKanban({ fromId, referenceId, type: innerType });
       }
 

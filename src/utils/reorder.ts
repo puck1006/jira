@@ -16,6 +16,7 @@ export const reorder = ({
   type: "after" | "before";
   referenceId: number;
 }) => {
+  console.log(fromId, type, referenceId, list);
   const copiedList = [...list];
   // 找到fromId对应项目的下标
   const movingItemIndex = copiedList.findIndex((item) => item.id === fromId);
@@ -47,6 +48,7 @@ const insertBefore = (list: unknown[], from: number, to: number) => {
  * @param from
  * @param to
  */
+
 const insertAfter = (list: unknown[], from: number, to: number) => {
   const toItem = list[to];
   const removedItem = list.splice(from, 1)[0];
